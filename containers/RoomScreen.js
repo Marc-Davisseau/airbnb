@@ -43,10 +43,12 @@ useEffect(() => {
 :
    (
 
+<View style={styles.main}>
+
 
     <View style={styles.container}>
 
-   
+<View style={styles.list}>
 
 <FlatList
 horizontal
@@ -54,7 +56,7 @@ horizontal
   keyExtractor={item => String(item.picture_id)}
   renderItem={({ item }) => 
 
-  <>
+  <View style={styles.list} >
   <ImageBackground 
 source={{uri: `${item.url}`}} resizeMode="cover" style={styles.image}>
   {/* <Text style={styles.text}>{data.price}€</Text> */}
@@ -63,18 +65,18 @@ source={{uri: `${item.url}`}} resizeMode="cover" style={styles.image}>
 <Text style={styles.text}>{data.price} €</Text>
   
 
-  </>
+  </View>
 
 
   }
 
 />
 
-<View style={styles.description}>
-  <View>
+<View>
+  <View style={styles.description}>
+  <View style={styles.description2}>
 
-
-<Text>{data.title}</Text>
+<Text style={styles.titleDecription}>{data.title}</Text>
 {/* <Text>{item.ratingValue}</Text> */}
 
 <View style={styles.ratingReviews}>
@@ -100,15 +102,31 @@ source={{uri: `${item.url}`}} resizeMode="cover" style={styles.image}>
 
 
 
-
-
-
+</View>
+</View>
+</View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
+main:{
+    flex:1,
+    justifyContent:'center',
+  alignContent:'center',
+  backgroundColor:'white'
+  
+  },
 
+
+container:{
+  flex:1,
+width:'95%',
+alignSelf:'center',
+alignContent:'center',
+backgroundColor:'white'
+
+},
   cover:{
 width:40,
 height:40
@@ -119,13 +137,13 @@ image:{
   height: 300,
 },
 logo:{
-  width:40,
-  height: 40,
+  width:80,
+  height: 80,
 },
 
   text: {
     position:"absolute",
-
+    top:240,
     justifyContent:"center",
     alignContent:"center",
     textAlign:"center",
@@ -142,13 +160,27 @@ alignItems:"center",
     flexDirection:'row'
   },
   description:{
+    display:'flex',
     justifyContent:'space-between',
     alignItems:"center",
     flexDirection:'row',
     borderColor: 'grey',
     borderBottomWidth:1,
     marginBottom:10,
-    paddingVertical:10
-  }
+    paddingVertical:10,
+    width:'100%'
+  }  ,
+  description2:{
+    maxWidth:'80%'
+
+  },
+
+  titleDecription:{
+    fontSize:20
+  },
+list:{
+
+  },
+
 
 });

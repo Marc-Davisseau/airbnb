@@ -44,8 +44,9 @@ useEffect(() => {
 
  
 
-    <View>
+    <View style={styles.container}>
 
+<View style={styles.list}></View>
 
       <FlatList
   data={data}
@@ -60,27 +61,34 @@ useEffect(() => {
   
   >
 
+<View>
+
 
 
 {console.log(item.photos[0].url)}
-<View style={styles.container}>
+<View style={styles}>
     <ImageBackground source={{uri: `${item.photos[0].url}`}} resizeMode="cover" style={styles.image}>
-      <Text style={styles.text}>{item.price}€</Text>
+      <Text style={styles.texte}>{item.price}€</Text>
     </ImageBackground>
   </View>
-
+  <View style={styles.des}>
 <View style={styles.description}>
-  <View>
+
+  <View style={styles.description2}>
 
 
-<Text numberOfLines={1}>{item.title}</Text>
+<Text 
+style={styles.titleDecription}
+numberOfLines={1}>{item.title}
+
+
+</Text>
 {/* <Text>{item.ratingValue}</Text> */}
 
 <View style={styles.ratingReviews}>
 <Rating  rating={item.ratingValue}    />
 <Text>{item.reviews} reviews</Text>
 </View>
-
 </View>
 <Image
         source={{
@@ -91,7 +99,11 @@ useEffect(() => {
         borderRadius={50}
       />
 
+
 </View>
+</View>
+</View>
+
   </TouchableOpacity>
 
 
@@ -101,13 +113,13 @@ useEffect(() => {
 
 
       
-      
+{/*       
       <Button
         title="Go to Profile"
         onPress={() => {
           navigation.navigate("Profile", { userId: 123 });
         }}
-      />
+      /> */}
     </View>
   )
 }
@@ -115,23 +127,30 @@ useEffect(() => {
 
 
 const styles = StyleSheet.create({
-  cover: { height: 300, width: 200, marginTop: 100 },
+
+  cover: { 
+    height: 300, 
+    width: 200,
+    
+    marginTop: 100 },
   logo: {
-    height: 80,
-    width: 80,
+    height: 60,
+    width: 60,
   },
   container: {
     flex: 1,
-    width:'90%',
+    width:'100%',
     alignItems:"center",
-    justifyContent:'center'
+    justifyContent:'center',
+    backgroundColor:"white"
+
   },
   image: {
     flex: 1,
     height: 180,
     width: '100%',
   },
-  text: {
+  texte: {
     position:"absolute",
     top:130,
     justifyContent:"center",
@@ -146,17 +165,30 @@ const styles = StyleSheet.create({
     backgroundColor: "black"
   },
   ratingReviews:{
-alignItems:"center",
     flexDirection:'row'
   },
+  description2:{
+     width:'80%',
+    display:'flex',
+
+
+    marginBottom:10,
+    paddingVertical:10,
+
+  },
+  titleDecription:{
+    fontSize:20
+  },
   description:{
-    justifyContent:'space-between',
-    alignItems:"center",
+    display:'flex',
     flexDirection:'row',
+    alignItems:'center',
     borderColor: 'grey',
     borderBottomWidth:1,
-    marginBottom:10,
-    paddingVertical:10
+    marginBottom:10
+
+
   }
+
 
 });
