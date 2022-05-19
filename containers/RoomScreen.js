@@ -1,35 +1,71 @@
 import { useNavigation } from "@react-navigation/core";
-import { Button, Text, View,FlatList, Image ,StyleSheet,ImageBackground,ActivityIndicator} from "react-native";
+import {TouchableOpacity, MapView,Button, Text, View,FlatList, Image ,StyleSheet,ImageBackground,ActivityIndicator} from "react-native";
 import axios from "axios";
+import { Marker } from "react-native-maps";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState } from "react";
 import { useEffect } from "react";
 import Rating from "../components/Rating";
+import * as Location from "expo-location";
+import  { PROVIDER_GOOGLE } from 'react-native'
 
-
-export default function RoomScreen({ route }) {
+export default function RoomScreen ({ route }) {
   const navigation = useNavigation();
   const [data, setData] = useState();
   const [error, setError] = useState();
   const [isLoading, setIsLoading] = useState(true);
+  const [showText, setShowText] = useState(false);
+  
+
+
+
+
+
+
 
 
 useEffect(() => {
+
+
+// const getPermission =async()=>{
+//   try {
+//   const {status}=await Location.requestForegroundPermissionsAsync()
+//   console.log(status)
+//   if(status==="granted"){
+//     const location = await Location.getCurrentPositionAsync()
+// console.log(location)
+// setLatitude(location.coords.latitude)
+// setLongitude(location.coords.longitude)
+//   }
+//   else{
+//     alert("Permission refusée")
+//   }
+// } catch (error) {
+//   console.log(error)
+// }
+// }
+
+// getPermission()
+
   const fetchData = async () => {
   setError("");
   console.log(route.params.id)
   // if (email && password)  {
       try {
+  
+  
         const response = await axios.get(
           `https://express-airbnb-api.herokuapp.com/rooms/${route.params.id}`,
         );
         setData(response.data);
         setIsLoading(false);
+        // setLatitude(data.location[1])
+        // setLongitude(data.location[0])
       }
       catch{
       }}   
       fetchData();
-    }, []);
+    }, [])
   
 
 
@@ -42,6 +78,8 @@ useEffect(() => {
      )
 :
    (
+
+
 
 <View style={styles.main}>
 
@@ -59,11 +97,11 @@ horizontal
   <View style={styles.list} >
   <ImageBackground 
 source={{uri: `${item.url}`}} resizeMode="cover" style={styles.image}>
-  {/* <Text style={styles.text}>{data.price}€</Text> */}
+
 </ImageBackground>
 
 <Text style={styles.text}>{data.price} €</Text>
-  
+
 
   </View>
 
@@ -77,7 +115,6 @@ source={{uri: `${item.url}`}} resizeMode="cover" style={styles.image}>
   <View style={styles.description2}>
 
 <Text style={styles.titleDecription}>{data.title}</Text>
-{/* <Text>{item.ratingValue}</Text> */}
 
 <View style={styles.ratingReviews}>
 <Rating  rating={data.ratingValue}    />
@@ -96,15 +133,52 @@ source={{uri: `${item.url}`}} resizeMode="cover" style={styles.image}>
 
 </View>
 
-<Text numberOfLines={3}>{data.description}</Text>
+
+<TouchableOpacity
+onPress={()=>{
+  setShowText(!showText)
+}}
+
+>
+<Text numberOfLines={showText? null:3}>{data.description}</Text>
+</TouchableOpacity>
+
 
   
+<View>
 
+
+
+ <View style={styles.container}>
+        <MapView style={styles.map}
+          initialRegion={{
+              latitude: 37.78825,
+              longitude: -122.4324,
+              latitudeDelta: 0.0,
+              longitudeDelta: 0.0,
+          }}>
+
+      </MapView>
+ </View> 
+
+
+
+</View>
 
 
 </View>
 </View>
 </View>
+
+
+
+
+
+
+
+
+
+
     </View>
   )
 }
@@ -181,6 +255,9 @@ alignItems:"center",
 list:{
 
   },
-
+map:{
+  width:10,
+  height:10
+}
 
 });

@@ -18,7 +18,7 @@ export default BackIcon;
 
 const styles = StyleSheet.create({
   logo: {
-    height: 20,
-    width: 20,
-    marginRight:200
+    height: 30,
+    width: 30,
+
   }})

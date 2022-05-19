@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import * as Location from "expo-location";
+import MapView, { PROVIDER_GOOGLE } from 'react-native'
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -12,6 +14,7 @@ import SignUpScreen from "./containers/SignUpScreen";
 import SettingsScreen from "./containers/SettingsScreen";
 import SplashScreen from "./containers/SplashScreen";
 import BackIcon from "./components/BackIcon";
+import BackIcon2 from "./components/BackIcon2";
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -68,8 +71,8 @@ export default function App() {
           </>
         ) : (
           // User is signed in ! 🎉
-          <Stack.Screen name="Tab" options={{ headerShown: false }}
-       
+          <Stack.Screen name="Tab" options={{ headerShown: false ,  headerLayoutPreset: 'center'}}
+        
          
          
          >
@@ -98,18 +101,21 @@ export default function App() {
                         name="Home"
                         options={{
                            
-                        
+                        headerTitle: ()=> <BackIcon />,
                           headerStyle: { backgroundColor: "white" },
                            headerTitleStyle: { color: "white" },
-                      headerRight : () => <BackIcon />,
+                  
                         }}
                       >
                         {() => <HomeScreen />}
                       </Stack.Screen>
 
                       <Stack.Screen
+                      
                         name="Room"
                         options={{
+                          headerLeft: ()=> <BackIcon2 />,
+                          headerTitle: ()=> <BackIcon />,
                           title: "Room",
                         }}
                       >

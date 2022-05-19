@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
     flexDirection:'row'
   },
   description2:{
-     width:'80%',
+     width:'83%',
     display:'flex',
 
 
