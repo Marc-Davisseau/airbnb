@@ -1,13 +1,20 @@
 import { useNavigation } from "@react-navigation/core";
-import {TouchableOpacity, MapView,Button, Text, View,FlatList, Image ,StyleSheet,ImageBackground,ActivityIndicator} from "react-native";
+import {TouchableOpacity,Button, Text, View,FlatList, Image ,StyleSheet,ImageBackground,ActivityIndicator} from "react-native";
 import axios from "axios";
+import MapView from "react-native-maps";
 import { Marker } from "react-native-maps";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState } from "react";
 import { useEffect } from "react";
 import Rating from "../components/Rating";
 import * as Location from "expo-location";
-import  { PROVIDER_GOOGLE } from 'react-native'
+import  { PROVIDER_GOOGLE } from "react-native-maps";
+
+
+
+
+
+
 
 export default function RoomScreen ({ route }) {
   const navigation = useNavigation();
@@ -16,8 +23,8 @@ export default function RoomScreen ({ route }) {
   const [isLoading, setIsLoading] = useState(true);
   const [showText, setShowText] = useState(false);
   
-
-
+  const [latitude, setLatitude] = useState(0);
+  const [longitude, setLongitude] = useState(0);
 
 
 
@@ -27,25 +34,27 @@ export default function RoomScreen ({ route }) {
 useEffect(() => {
 
 
-// const getPermission =async()=>{
-//   try {
-//   const {status}=await Location.requestForegroundPermissionsAsync()
-//   console.log(status)
-//   if(status==="granted"){
-//     const location = await Location.getCurrentPositionAsync()
-// console.log(location)
-// setLatitude(location.coords.latitude)
-// setLongitude(location.coords.longitude)
-//   }
-//   else{
-//     alert("Permission refusée")
-//   }
-// } catch (error) {
-//   console.log(error)
-// }
-// }
-
-// getPermission()
+  // const getPermission = async () => {
+  //   try {
+  //     // Je demande la permission au user d'avoir accès à sa localisation
+  //     const { status } = await Location.requestForegroundPermissionsAsync();
+  //     console.log(status);
+  //     // S'il répond oui
+  //     if (response.status === "granted") {
+  //       // Je récupère sa localisation
+  //       const location = await Location.getCurrentPositionAsync();
+  //       console.log(location);
+  //       // Et je stocke sa position dans mes states
+  //       setLatitude(location.coords.latitude);
+  //       setLongitude(location.coords.longitude);
+  //     } else {
+  //       alert("Permission refusée");
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+  // getPermission()
 
   const fetchData = async () => {
   setError("");
@@ -59,17 +68,18 @@ useEffect(() => {
         );
         setData(response.data);
         setIsLoading(false);
-        // setLatitude(data.location[1])
-        // setLongitude(data.location[0])
+
+
+        
+      
       }
       catch{
       }}   
       fetchData();
+  
     }, [])
   
-
-
-    return isLoading === true ? (
+    return isLoading === true ? (   
      <View>
         <ActivityIndicator />
 
@@ -78,6 +88,7 @@ useEffect(() => {
      )
 :
    (
+
 
 
 
@@ -137,10 +148,13 @@ source={{uri: `${item.url}`}} resizeMode="cover" style={styles.image}>
 <TouchableOpacity
 onPress={()=>{
   setShowText(!showText)
+
 }}
 
 >
 <Text numberOfLines={showText? null:3}>{data.description}</Text>
+{/* <Text>longitude:{data.location[0]}</Text>
+<Text>latitude:{data.location[1]}</Text> */}
 </TouchableOpacity>
 
 
@@ -152,11 +166,18 @@ onPress={()=>{
  <View style={styles.container}>
         <MapView style={styles.map}
           initialRegion={{
-              latitude: 37.78825,
-              longitude: -122.4324,
-              latitudeDelta: 0.0,
-              longitudeDelta: 0.0,
+              latitude: data.location[1],
+              longitude: data.location[0],
+              latitudeDelta: 0.1,
+              longitudeDelta: 0.1,
           }}>
+  <Marker
+  
+      coordinate={{ latitude : data.location[1] , longitude : data.location[0] }}
+  
+    />
+
+
 
       </MapView>
  </View> 
@@ -208,7 +229,7 @@ height:40
   },
 image:{
   width:340,
-  height: 300,
+  height: 200,
 },
 logo:{
   width:80,
@@ -256,8 +277,8 @@ list:{
 
   },
 map:{
-  width:10,
-  height:10
+  width:'100%',
+  height:300
 }
 
 });

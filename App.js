@@ -12,9 +12,11 @@ import ProfileScreen from "./containers/ProfileScreen";
 import SignInScreen from "./containers/SignInScreen";
 import SignUpScreen from "./containers/SignUpScreen";
 import SettingsScreen from "./containers/SettingsScreen";
+import ArroundMeScreen from "./containers/ArroundMeScreen";
 import SplashScreen from "./containers/SplashScreen";
 import BackIcon from "./components/BackIcon";
 import BackIcon2 from "./components/BackIcon2";
+import { Entypo } from '@expo/vector-icons';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -107,6 +109,10 @@ export default function App() {
                   
                         }}
                       >
+
+
+
+                        
                         {() => <HomeScreen />}
                       </Stack.Screen>
 
@@ -114,8 +120,9 @@ export default function App() {
                       
                         name="Room"
                         options={{
-                          headerLeft: ()=> <BackIcon2 />,
-                          headerTitle: ()=> <BackIcon />,
+                        headerBackVisible: false,
+                           headerLeft: ()=> <BackIcon2 />,
+                           headerTitle: ()=> <BackIcon />,
                           title: "Room",
                         }}
                       >
@@ -134,6 +141,45 @@ export default function App() {
                     </Stack.Navigator>
                   )}
                 </Tab.Screen>
+
+
+                <Tab.Screen
+                  name="Arround Me"
+                  options={{
+                    tabBarLabel: "Arround me",
+            
+                    tabBarIcon: ({ color, size }) => (
+                      <Entypo name="location-pin" size={24} color="black" />
+                      
+                      
+                    )
+                  }} 
+                >
+                  {() => (
+                    <Stack.Navigator>
+                      <Stack.Screen
+                        name="ArroundMe"
+                        options={{
+                          title: "ArroundMe",
+                          headerTitle: ()=> <BackIcon />
+                        }}
+                      >
+                        {() => <ArroundMeScreen setToken={setToken} />}
+                      </Stack.Screen>
+
+
+
+
+                      
+                    </Stack.Navigator>
+                  )}
+                </Tab.Screen>
+
+
+
+
+
+
                 <Tab.Screen
                   name="TabSettings"
                   options={{
@@ -144,6 +190,7 @@ export default function App() {
                         size={size}
                         color={color}
                       />
+                      
                     ),
                   }}
                 >
@@ -157,9 +204,18 @@ export default function App() {
                       >
                         {() => <SettingsScreen setToken={setToken} />}
                       </Stack.Screen>
+
+
+
+
+                      
                     </Stack.Navigator>
                   )}
                 </Tab.Screen>
+
+               
+
+
               </Tab.Navigator>
             )}
           </Stack.Screen>

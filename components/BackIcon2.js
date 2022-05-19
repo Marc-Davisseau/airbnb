@@ -2,7 +2,7 @@ import { View, Text } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
-const BackIcon = () => {
+const BackIcon2 = () => {
   const navigation = useNavigation();
   return (
     <AntDesign
@@ -16,4 +16,4 @@ const BackIcon = () => {
   );
 };
 
-export default BackIcon;
+export default BackIcon2;
