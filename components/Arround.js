@@ -1,16 +1,19 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View,FlatList } from "react-native";
+import { StyleSheet, Text, View,FlatList, ActivityIndicator } from "react-native";
 // Import du package expo-location
 import * as Location from "expo-location";
 import { useEffect, useState } from "react";
 // Import du package pour fficher des maps
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import axios from "axios";
+import {useNavigation} from '@react-navigation/native'
 
 export default function Arround(props) {
 
 const [data, setData] = useState();
 const [isLoading, setIsLoading] = useState(true);
+const navigation = useNavigation();
+
 console.log(props.longitude)
   useEffect(() => {
 
@@ -38,7 +41,11 @@ console.log(props.longitude)
 
 
   return isLoading === true ? (
-    <Text>En cours de chargement</Text>
+    
+<View>
+<ActivityIndicator/>
+</View>
+
   ) : (
     <MapView
     // Je dois donner une dimension à ma map
@@ -65,6 +72,12 @@ console.log(props.longitude)
           latitude: elem.location[1],
           longitude: elem.location[0],
         }}
+onPress={()=>
+ 
+  navigation.navigate("Room", { id: `${elem._id}` })
+}
+
+
       />
         )
 })}
